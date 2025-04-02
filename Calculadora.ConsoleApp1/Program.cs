@@ -61,7 +61,7 @@
 
                     for (int i = 0; i < contadorHistorico; i++)
                     {
-                        Console.WriteLine(historico[contadorHistorico]);
+                        Console.WriteLine(historico[i]);
                     }
                 }
 
