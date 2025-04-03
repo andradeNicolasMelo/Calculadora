@@ -51,7 +51,7 @@ while (true)
         Console.WriteLine("=================================");
         for (int i = 0; i <= qtdNumTabuadaMultiplicada; i++)
         {
-            Console.WriteLine($"{qtdNumTabuada} x {qtdNumTabuadaMultiplicada} = {qtdNumTabuada * i}");
+            Console.WriteLine($"{qtdNumTabuada} x {i} = {qtdNumTabuada * i}");
         }
         Console.WriteLine("=================================");
 
@@ -66,7 +66,7 @@ while (true)
         Console.WriteLine("Historico das operações");
         Console.WriteLine("=================================");
         
-        for(int i = 0; i < qtdOperacoesRealizadas; i++)
+        for(int i = 0; i < contadorHistorico; i++)
         {
             Console.WriteLine($"{historico[i]}");
         }        
@@ -95,7 +95,7 @@ while (true)
 
     else if (option == "2")
     {
-        resultado = segundoNum - primeiroNum;
+        resultado = primeiroNum - segundoNum;
         strResultado = $"{primeiroNum} - {segundoNum} = {resultado}";
 
         historico[contadorHistorico] = strResultado;
@@ -113,7 +113,7 @@ while (true)
     {
         if (segundoNum == 0)
         {
-            while (segundoNum != 0)
+            while (segundoNum == 0)
             {
                 Console.WriteLine($"Não é possivel dividir {primeiroNum} por 0");
                 Console.WriteLine("Por gentileza, insira outro valor");
@@ -137,7 +137,7 @@ while (true)
     Console.WriteLine("=================================");
     Console.WriteLine("");
 
-    Console.Write("Deseja continuar ou sair da calculadora? ");
+    Console.Write("Deseja sair ou não da calculadora? ");
     string escolhaSair = Console.ReadLine();
 
     Console.WriteLine("");
@@ -145,11 +145,20 @@ while (true)
     if (escolhaSair.ToUpper().Contains("S"))
     {
         Console.WriteLine("Você saiu do código :(");
+
+        Console.ReadLine();
+        contadorHistorico++;
+        Console.Clear();
         break;
     }
 
     else if (escolhaSair.ToUpper().Contains("N"))
     {
+        Console.Clear();
+
+        Console.ReadLine();
+        contadorHistorico++;
+        Console.Clear();
         continue;
     }
 
@@ -169,13 +178,16 @@ while (true)
             Console.WriteLine("=================================");
             Console.WriteLine("=================================");
             Console.WriteLine("Você saiu do código :(");
+
+            Console.ReadLine();
+            contadorHistorico++;
+            Console.Clear();
             break;
         }
 
+        Console.ReadLine();
+        contadorHistorico++;
+        Console.Clear();
     }
     Console.WriteLine("---------------------------------");
-
-    Console.ReadLine();
-    contadorHistorico++;
-    Console.Clear();
 }
