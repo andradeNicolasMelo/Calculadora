@@ -121,13 +121,16 @@ while (true)
 
                 Console.WriteLine("Qual o segundo valor? ");
                 segundoNum = Convert.ToDecimal(Console.ReadLine());
+
+                historico[contadorHistorico] = strResultado;
+
             }
         }
 
         resultado = primeiroNum / segundoNum;
         strResultado = $"{primeiroNum} / {segundoNum} = {resultado}";
 
-        historico[contadorHistorico] = $"{qtdOperacoesRealizadas} - {resultado}";
+        historico[contadorHistorico] = strResultado;
     }
 
     Console.WriteLine("");
