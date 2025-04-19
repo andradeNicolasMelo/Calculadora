@@ -1,196 +1,159 @@
-﻿string[] historico = new string[100];
-int contadorHistorico = 0;
-int qtdOperacoesRealizadas = 0;
-
-while (true)
+﻿internal class Program
 {
-    Console.WriteLine("=================================");
-    Console.WriteLine("Calculadora Tabajara");
-    Console.WriteLine("=================================");
-    Console.WriteLine("1 - Somar");
-    Console.WriteLine("2 - Subtrair");
-    Console.WriteLine("3 - Multiplicar");
-    Console.WriteLine("4 - Dividir");
-    Console.WriteLine("5 - Tabuada");
-    Console.WriteLine("6 - historico");
-    Console.WriteLine("S - Sair");
-
-    //--------------
-    qtdOperacoesRealizadas++;
-    //--------------
-
-    decimal resultado = 0.0m;
-    string strResultado = "";
-
-    Console.WriteLine("---------------------------------");
-    Console.Write("Escolha a opção: ");
-    string option = Console.ReadLine();
-    Console.WriteLine("---------------------------------");
-
-    if (option.ToUpper() == "S")
+    static string[] historico = new string[100];
+    static int contadorHistorico = 0;
+    private static void Main(string[] args)
     {
-        Console.WriteLine("Você saiu do código :(");
-        break;
-    }
-
-    //-----------------------------------------------
-    if (option == "5")
-    {
-        string linhaTabuada = "";
-        Console.WriteLine("=================================");
-        Console.WriteLine("Tabuada");
-        Console.WriteLine("=================================");
-        Console.Write("Qual tabuada você quer? ");
-        int qtdNumTabuada = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("");
-        Console.Write("O numerador que você escolheu vai ser multiplicado quantas vezes? ");
-        int qtdNumTabuadaMultiplicada = Convert.ToInt32(Console.ReadLine());
-
-
-
-        Console.WriteLine("=================================");
-        for (int i = 0; i <= qtdNumTabuadaMultiplicada; i++)
+        while (true)
         {
-            Console.WriteLine($"{qtdNumTabuada} x {i} = {qtdNumTabuada * i}");
-        }
-        Console.WriteLine("=================================");
+            string opcaoEscolhida = Menu();
 
-        Console.ReadLine();
-        Console.Clear();
-        continue;
-    }
-
-    else if (option == "6")
-    {
-        Console.WriteLine("=================================");
-        Console.WriteLine("Historico das operações");
-        Console.WriteLine("=================================");
-        
-        for(int i = 0; i < contadorHistorico; i++)
-        {
-            Console.WriteLine($"{historico[i]}");
-        }        
-        Console.WriteLine("---------------------------------");
-
-        Console.ReadLine();
-        Console.Clear();
-        continue;
-    }
-
-    Console.Write("Escreva o primeiro numero: ");
-    decimal primeiroNum = Convert.ToDecimal(Console.ReadLine());
-
-    Console.WriteLine("");
-
-    Console.Write("Escreva o segundo numero: ");
-    decimal segundoNum = Convert.ToDecimal(Console.ReadLine());
-
-    if (option == "1")
-    {
-        resultado = primeiroNum + segundoNum;
-        strResultado = $"{primeiroNum} + {segundoNum} = {resultado}";
-
-        historico[contadorHistorico] = strResultado;
-    }
-
-    else if (option == "2")
-    {
-        resultado = primeiroNum - segundoNum;
-        strResultado = $"{primeiroNum} - {segundoNum} = {resultado}";
-
-        historico[contadorHistorico] = strResultado;
-    }
-
-    else if (option == "3")
-    {
-        resultado = primeiroNum * segundoNum;
-        strResultado = $"{primeiroNum} * {segundoNum} = {resultado}";
-
-        historico[contadorHistorico] = strResultado;
-    }
-
-    else if (option == "4")
-    {
-        if (segundoNum == 0)
-        {
-            while (segundoNum == 0)
+            if (OpcaoInvalida(opcaoEscolhida))
             {
-                Console.WriteLine($"Não é possivel dividir {primeiroNum} por 0");
-                Console.WriteLine("Por gentileza, insira outro valor");
-                Console.WriteLine("");
-
-                Console.WriteLine("Qual o segundo valor? ");
-                segundoNum = Convert.ToDecimal(Console.ReadLine());
-
-                historico[contadorHistorico] = strResultado;
-
+                MensagemErro();
             }
-        }
 
-        resultado = primeiroNum / segundoNum;
-        strResultado = $"{primeiroNum} / {segundoNum} = {resultado}";
+            else if (EscolheuSair(opcaoEscolhida))
+            {
+                break;
+            }
 
-        historico[contadorHistorico] = strResultado;
-    }
+            else if (EscolheuHistorico(opcaoEscolhida))
+            {
+                Historico();
+            }
 
-    Console.WriteLine("");
-    
-    Console.WriteLine("=================================");
-    Console.WriteLine($"O resultado é {strResultado}");
-    Console.WriteLine("=================================");
-    Console.WriteLine("");
+            else if (EscolheuTabuada(opcaoEscolhida))
+            {
+                Tabuada();
+            }
 
-    Console.Write("Deseja sair ou não da calculadora? ");
-    string escolhaSair = Console.ReadLine();
-
-    Console.WriteLine("");
-
-    if (escolhaSair.ToUpper().Contains("S"))
-    {
-        Console.WriteLine("Você saiu do código :(");
-
-        Console.ReadLine();
-        contadorHistorico++;
-        Console.Clear();
-        break;
-    }
-
-    else if (escolhaSair.ToUpper().Contains("N"))
-    {
-        Console.Clear();
-
-        Console.ReadLine();
-        contadorHistorico++;
-        Console.Clear();
-        continue;
-    }
-
-    else if (!escolhaSair.ToUpper().Contains("S") && !escolhaSair.ToUpper().Contains("N"))
-    {
-        while (!escolhaSair.ToUpper().Contains("S") && !escolhaSair.ToUpper().Contains("N"))
-        {
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine($"Palavra invalida!!!!");
-            Console.Write($"Escreva 'Sim' ou 'Não': ");
-            escolhaSair = Console.ReadLine();
-        }
-
-        if (escolhaSair.ToUpper().Contains("S"))
-        {
-            Console.WriteLine("");
-            Console.WriteLine("=================================");
-            Console.WriteLine("=================================");
-            Console.WriteLine("Você saiu do código :(");
+            else
+            {
+                Calculos(opcaoEscolhida);
+            }
 
             Console.ReadLine();
-            contadorHistorico++;
-            Console.Clear();
-            break;
+        }
+    }
+
+    static string Menu()
+    {
+        Console.Clear();
+        Console.WriteLine("--------------------------------------------");
+        Console.WriteLine("Calculadora");
+        Console.WriteLine("--------------------------------------------");
+        Console.WriteLine("1 - Somar");
+        Console.WriteLine("2 - Subtrair");
+        Console.WriteLine("3 - Multiplicar");
+        Console.WriteLine("4 - Dividir");
+        Console.WriteLine("5 - Tabuada");
+        Console.WriteLine("6 - Historico");
+        Console.WriteLine("S - SAIR");
+        Console.WriteLine("");
+        Console.Write("Qual opcao voce escolhe? ");
+        string opcaoEscolhida = Console.ReadLine()!;
+
+        return opcaoEscolhida;
+    }
+
+    static bool OpcaoInvalida(string opc)
+    {
+        bool validador = opc != "1" && opc != "2" && opc != "3" && opc != "4" && opc != "5" && opc != "6";
+        return validador;
+    }
+
+    static void MensagemErro()
+    {
+        Console.WriteLine("Sua escolha nao esta relacionado com o menu de escolhas. Tente novamente...");
+        Console.ReadLine();
+    }
+
+    static bool EscolheuSair(string opc)
+    {
+        bool validador = opc == "S";
+        return validador;
+    }
+
+    static bool EscolheuHistorico(string opc)
+    {
+        bool validador = opc == "6";
+        return validador;
+    }
+
+    static void Historico()
+    {
+        Console.Clear();
+        Console.WriteLine("--------------------------------------------");
+        Console.WriteLine("Historico");
+        Console.WriteLine("--------------------------------------------");
+
+        for (int i = 0; i <= contadorHistorico; i++)
+        {
+            Console.WriteLine($"{i} - {historico[i]}");
         }
 
-        Console.ReadLine();
-        contadorHistorico++;
-        Console.Clear();
+        //historico[i] = string
+        //
     }
-    Console.WriteLine("---------------------------------");
+
+    static bool EscolheuTabuada(string opc)
+    {
+        bool validador = opc == "5";
+        return validador;
+    }
+
+    static void Tabuada()
+    {
+        Console.WriteLine("--------------------------------------------");
+        Console.WriteLine("Tabuada");
+        Console.WriteLine("--------------------------------------------");
+        Console.Write("Qual tabuada voce quer? ");
+        int tabuada = Convert.ToInt32(Console.ReadLine());
+        for (int i = 0; i <= 10; i++)
+        {
+            Console.WriteLine($"{tabuada} x {i} = {tabuada * i}");
+        }
+
+    }
+
+    static decimal Calculos(string opc)
+    {
+        decimal resultado = 0;
+
+        Console.Write("qual o primeiro Numero? ");
+        decimal primeiroNumero = Convert.ToDecimal(Console.ReadLine());
+
+        Console.WriteLine("Qual o segundo Numero? ");
+        decimal segundoNumero = Convert.ToDecimal(Console.ReadLine());
+
+        if (opc == "1")
+        {
+            resultado = primeiroNumero + segundoNumero;
+            historico[contadorHistorico] = $"{primeiroNumero} + {segundoNumero} = {resultado}";
+        }
+
+        else if (opc == "2")
+        {
+            resultado = primeiroNumero - segundoNumero;
+            historico[contadorHistorico] = $"{primeiroNumero} + {segundoNumero} = {resultado}";
+        }
+
+        else if (opc == "3")
+        {
+            resultado = primeiroNumero * segundoNumero;
+            historico[contadorHistorico] = $"{primeiroNumero} + {segundoNumero} = {resultado}";
+        }
+
+        else
+        {
+            resultado = primeiroNumero / segundoNumero;
+            historico[contadorHistorico] = $"{primeiroNumero} + {segundoNumero} = {resultado}";
+        }
+
+        contadorHistorico++;
+
+        return resultado;
+    }
+
 }
